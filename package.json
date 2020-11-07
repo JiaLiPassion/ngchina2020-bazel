@@ -1,0 +1,39 @@
+{
+  "name": "ngtaiwan2019-bazel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "bazel": "bazel",
+    "ibazel": "ibazel",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JiaLiPassion/ngtaiwan2019-bazel.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JiaLiPassion/ngtaiwan2019-bazel/issues"
+  },
+  "homepage": "https://github.com/JiaLiPassion/ngtaiwan2019-bazel#readme",
+  "devDependencies": {
+    "@bazel/bazel": "^1.1.0",
+    "@bazel/ibazel": "^0.10.3",
+    "@bazel/jasmine": "^0.39.0",
+    "@bazel/karma": "^0.39.0",
+    "@bazel/protractor": "^0.39.0",
+    "@bazel/terser": "^0.39.0",
+    "@bazel/typescript": "^0.39.0",
+    "@types/jasmine": "^3.4.4",
+    "jasmine": "^3.5.0",
+    "jasmine-core": "^3.5.0",
+    "karma": "^4.4.1",
+    "protractor": "^5.4.2",
+    "rollup": "^1.1.0",
+    "terser": "^4.3.9",
+    "typescript": "^3.6.4"
+  }
+}
