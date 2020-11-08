@@ -8,6 +8,7 @@ exports_files(
 ts_library(
     name = "app",
     srcs = [":birthday_card.ts"],
+    tsconfig = "//projects/typescript/src:tsconfig.json",
     visibility = ["//visibility:public"],
-    deps = ["//src/lib"],
+    deps = ["//projects/typescript/src/lib"],
 )

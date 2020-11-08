@@ -1,5 +1,5 @@
 // user.ts
-import { formatDate } from './date';
+import {formatDate} from './date';
 
 /** Data object representing a User. */
 export class User {
@@ -8,6 +8,6 @@ export class User {
   }
 
   toString() {
-    return `${this.name}, born on ${formatDate(this.birthday)}`;
+    return `${this.name}, born on ${formatDate(this.birthday)}!`;
   }
 }
