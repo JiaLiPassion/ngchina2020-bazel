@@ -1,6 +1,6 @@
-load("@build_bazel_rules_nodejs//:defs.bzl", "rollup_bundle")
-load("@npm_bazel_typescript//:index.bzl", "ts_devserver")
-load("@npm_bazel_terser//:index.bzl", "terser_minified")
+load("@npm//@bazel/rollup:index.bzl", "rollup_bundle")
+load("@npm//@bazel/typescript:index.bzl", "ts_devserver")
+load("@npm//@bazel/terser:index.bzl", "terser_minified")
 
 exports_files(
     ["tsconfig.json"],
@@ -9,7 +9,6 @@ exports_files(
 
 rollup_bundle(
     name = "app_bundle",
-    enable_code_splitting = False,
     entry_point = "//src/app:birthday_card.ts",
     deps = ["//src/app"],
 )
@@ -21,7 +20,6 @@ terser_minified(
 
 ts_devserver(
     name = "devserver",
-    index_html = "index.html",
     port = 4200,
     visibility = ["//src:__subpackages__"],
     deps = [

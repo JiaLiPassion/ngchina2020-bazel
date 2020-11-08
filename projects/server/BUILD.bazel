@@ -1,0 +1,21 @@
+load("@npm//@bazel/typescript:index.bzl", "ts_library")
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
+
+ts_library(
+    name = "lib",
+    srcs = [":main.ts"],
+    tsconfig = ":tsconfig.json",
+    deps = [
+        "//projects/shared:user",
+        "@npm//@types/express",
+        "@npm//express",
+    ],
+)
+
+nodejs_binary(
+    name = "server",
+    data = [
+        ":lib",
+    ],
+    entry_point = ":main.ts",
+)

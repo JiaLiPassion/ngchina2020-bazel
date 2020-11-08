@@ -1,49 +1,37 @@
+# Bazel workspace created by @bazel/create 0.38.1
+# Declares that this directory is the root of a Bazel workspace.
+# See https://docs.bazel.build/versions/master/build-ref.html#workspace
 workspace(
-    name = "com_taiwan_2019",
-    managed_directories = {"@npm": ["node_modules"]},
+    # How this workspace would be referenced with absolute labels from another workspace
+    name = "angular_bazel_architect",
+    managed_directories = {
+        "@npm": ["node_modules"],
+    },
 )
 
+# Install the nodejs "bootstrap" package
+# This provides the basic tools for running and packaging nodejs programs in Bazel
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-# Fetch rules_nodejs so we can install our npm dependencies
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "ad4be2c6f40f5af70c7edf294955f9d9a0222c8e2756109731b25f79ea2ccea0",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/0.38.3/rules_nodejs-0.38.3.tar.gz"],
+    sha256 = "0f2de53628e848c1691e5729b515022f5a77369c76a09fbe55611e12731c90e3",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/2.0.1/rules_nodejs-2.0.1.tar.gz"],
 )
 
-load("@build_bazel_rules_nodejs//:defs.bzl", "node_repositories", "yarn_install")
-
-node_repositories()
+# The yarn_install rule runs yarn anytime the package.json or yarn.lock file changes.
+# It also extracts and installs any Bazel rules distributed in an npm package.
+load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
 
 yarn_install(
+    # Name this npm so that Bazel Label references look like @npm//package
     name = "npm",
+    data = ["//:patches/@angular-devkit+architect-cli+0.900.1.patch"],
     package_json = "//:package.json",
+    # Turn off symlink_node_modules here as it causes extreme flakiness on buildkite
+    # macos CI with missing files in node_modules.
+    # TODO: track down the root cause of the flakiness; it may be something to
+    # do with how the Bazel team has setup their macos virtualization.
+    symlink_node_modules = False,
     yarn_lock = "//:yarn.lock",
-)
-
-# Install all bazel dependencies of the @npm npm packages
-load("@npm//:install_bazel_dependencies.bzl", "install_bazel_dependencies")
-
-install_bazel_dependencies()
-
-# Setup the rules_typescript tooolchain
-load("@npm_bazel_typescript//:index.bzl", "ts_setup_workspace")
-
-ts_setup_workspace()
-
-# Load karma dependencies
-load("@npm_bazel_karma//:package.bzl", "npm_bazel_karma_dependencies")
-
-npm_bazel_karma_dependencies()
-
-# Setup the rules_webtesting toolchain
-load("@io_bazel_rules_webtesting//web:repositories.bzl", "web_test_repositories")
-
-web_test_repositories()
-
-load("@io_bazel_rules_webtesting//web/versioned:browsers-0.3.2.bzl", "browser_repositories")
-
-browser_repositories(
-    chromium = True,
 )
